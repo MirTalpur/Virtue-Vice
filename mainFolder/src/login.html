@@ -5,12 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Welcome to Virtue/Vice!</title>
 		<link rel="stylesheet" href="../css/login.css">
+    <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+    <script type="text/javascript" src="../js/app.js"></script>
 	</head>
 	<body>
 	  <div class="login">
 	  	<h1>virtue / <i>vice</i></h1>
 
-      <form class="loginForm" action="index_submit" method="get" accept-charset="utf-8">
+      <form id="loginForm" class="loginForm" action="index_submit" method="get" accept-charset="utf-8">
       	<table>
       		<tr>
         		<td class="svgTd">
@@ -32,7 +34,7 @@
        	</table>
        	<p id="signInMessage">Sign in successful! <span style="color: #4caf50">&#10004;</span></p>
        	<div class="buttons">
-       		<input class="loginButton" type="button" value="Login" onclick="location.href='welcome.html'">
+       		<input class="loginButton" type="button" value="Login" onclick="onClickSignIn()">
           <input class="signUpButton" type="button" value="Signup" onclick="onClickSignUp()">
         </div>
       </form>
