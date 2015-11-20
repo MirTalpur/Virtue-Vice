@@ -13,7 +13,7 @@
 
 		<div class="forms">
 			<h2>Add A Habit</h2>
-			<form name="form" method="post" onsubmit="addHabit();">
+			<form name="form">
 				<p><label><span id="title_text">Habit Title</span></label></p>
 				<p><input id="title" type="text" name="fullname" placeholder="Exercise 30 minutes" required></p>
 				<p><label>Habit Icon</label></p>
@@ -41,7 +41,7 @@
 					<span id="times">times</span>
 				</div>
 				<p><label><span id="others_text">Others: </span><input id="others" type="number" min="4" name="day" placeholder="More than 3 times"></label></p>
-				<p id="save_p"><input id="save" type="submit" value="Save It"></p>
+				<p id="save_p"><input id="save" type="submit" value="Save It" onclick="addHabit(event)"></p>
 				
 			</form>
 
