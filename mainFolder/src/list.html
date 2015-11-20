@@ -22,19 +22,18 @@
                 </ul>
                 <div class="message">
                     <span class="message-total">
-                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong><br>
-                        <svg height="25" width="150">
-                            <line x1="0" y1="0" x2="60" y2="0" style="stroke:rgba(65, 131, 215, 0.8);stroke-width:25" />
-                            <line x1="60" y1="0" x2="150" y2="0" style="stroke:rgba(171,171,171,0.6);stroke-width:25" />
-                        </svg>
+                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong>
+                        <div class="progressBar">
+                            <div class="progress"></div>
+                        </div>
                     </span><br>
                     <span class="message-today">Completed <strong>1/1</strong> for today!</span>
                 </div>
                 <div class="habit-record">
-                    <button type="button" class="record record-down" onclick="thumbsDown(this)" title="">
+                    <button type="button" class="record record-down" onclick="thumbsDown(this);resetProgress(this);" title="">
                         <img src="../img/thumbsDown.png" alt="Thumbs Down">
                     </button>
-                    <button type="button" class="record record-up" onclick="thumbsUp(this)" title="">
+                    <button type="button" class="record record-up" onclick="thumbsUp(this);increaseProgress(this);" title="">
                         <img src="../img/thumbsUp.png" alt="Thumbs Up">
                     </button>
                 </div>
@@ -57,19 +56,18 @@
                 </ul>
                 <div class="message">
                     <span class="message-total">
-                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong><br>
-                        <svg height="25" width="150">
-                            <line x1="0" y1="0" x2="75" y2="0" style="stroke:rgba(65, 131, 215, 0.8);stroke-width:25" />
-                            <line x1="75" y1="0" x2="150" y2="0" style="stroke:rgba(171,171,171,0.6);stroke-width:25" />
-                        </svg>
+                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong>
+                        <div class="progressBar">
+                            <div class="progress"></div>
+                        </div>
                     </span><br>
                     <span class="message-today">Completed <strong>1/3</strong> for today!</span>
                 </div>
                 <div class="habit-record">
-                    <button type="button" class="record record-down" onclick="thumbsDown(this);" title="">
+                    <button type="button" class="record record-down" onclick="thumbsDown(this);resetProgress(this);" title="">
                         <img src="../img/thumbsDown.png" alt="Thumbs Down">
                     </button>
-                    <button type="button" class="record record-up" onclick="thumbsUp(this);" title="">
+                    <button type="button" class="record record-up" onclick="thumbsUp(this);increaseProgress(this);" title="">
                         <img src="../img/thumbsUp.png" alt="Thumbs Up">
                     </button>
                 </div>
@@ -92,19 +90,18 @@
                 </ul>
                 <div class="message">
                     <span class="message-total">
-                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong><br>
-                        <svg height="25" width="150">
-                            <line x1="0" y1="0" x2="120" y2="0" style="stroke:rgba(65, 131, 215, 0.8);stroke-width:25" />
-                            <line x1="120" y1="0" x2="150" y2="0" style="stroke:rgba(171,171,171,0.6);stroke-width:25" />
-                        </svg>
+                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong>
+                        <div class="progressBar">
+                            <div class="progress"></div>
+                        </div>
                     </span><br>
                     <span class="message-today">Completed <strong>1/2</strong> for today!</span>
                 </div>
                 <div class="habit-record">
-                    <button type="button" class="record record-down" onclick="thumbsDown(this);" title="">
+                    <button type="button" class="record record-down" onclick="thumbsDown(this);resetProgress()" title="">
                         <img src="../img/thumbsDown.png" alt="Thumbs Down">
                     </button>
-                    <button type="button" class="record record-up" onclick="thumbsUp(this);" title="">
+                    <button type="button" class="record record-up" onclick="thumbsUp(this);increaseProgress();" title="">
                         <img src="../img/thumbsUp.png" alt="Thumbs Up">
                     </button>
                 </div>
@@ -130,15 +127,16 @@
         var bestRecord = new Array();
 
         var listItems = document.getElementById('habit-list').children;
-        //var habitName = listItems.getElementsByClassName('habit-name')[0].innerHTML;
 
         len = listItems.length;
 
         for( var i = 0; i < len; i++ ) {
             var habitName = listItems[i].getElementsByClassName('habit-name')[0].innerHTML;
-            console.log(habitName);
             dayStreak[ habitName ] = 0;
             bestRecord[ habitName ] = 0;
+
+            listItems[i].getElementsByClassName('best-record')[0].innerHTML = 0;
+            listItems[i].getElementsByClassName('day-streak')[0].innerHTML = 0;
         }
 
         function showMsg(element){
@@ -155,6 +153,29 @@
             } 
             else {/*do nothing*/}
 
+        }
+
+        function increaseProgress(element) {
+            var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;
+            var progress = element.parentNode.parentNode.getElementsByClassName("progress")[0];
+
+            var percentage = dayStreak[ habitName ] / 10 * 100;
+
+            requestAnimationFrame(function(){
+                percentage = percentage.toString() + '%';
+                console.log(percentage);
+                progress.style.transition = "width 1s linear";
+                progress.style.width = percentage;
+            });
+        }
+
+        function resetProgress(element) {
+            bar = element.parentNode.parentNode.getElementsByClassName("progress")[0];
+
+            requestAnimationFrame(function(){
+                bar.style.transition = "width 1s linear";
+                bar.style.width = "0px";
+            });
         }
 
         function thumbsUp(element) {
