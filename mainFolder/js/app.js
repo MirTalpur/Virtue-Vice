@@ -51,7 +51,13 @@ function selectImage(name) {
     image.style.border = '5px solid #42A5F5';
 
     //set icon source to send to parse
-    iconSrc = image.src;
+    if(name === 'icon1'){
+        iconSrc = '../img/sleep.jpg';
+    } else if (name === 'icon2') {
+        iconSrc = '../img/salad.jpg';
+    } else if (name === 'icon3') {
+        iconSrc = '../img/run.jpg';
+    }
 }
 
 function checkWeeklyFreq() {
@@ -98,6 +104,47 @@ function getWeekdays() {
     }
 }
 
+function setTitle(name){
+    var title = document.querySelector('#title');
+    title.value = name;
+}
+
+function setDailyFreq(frequency){
+    var form = document.querySelector('#editForm');
+    if(frequency === 1){
+        form.day[0].checked = true;
+    } else if(frequency === 2){
+        form.day[1].checked = true;
+    } else if(frequency === 3){
+        form.day[2].checked = true;
+    } else {
+        document.getElementById('others').value = frequency;
+    }
+
+}
+
+function setWeekdays(days){
+    var form = document.querySelector('#editForm');
+    for (var i = 0; i < days.length; i++) {
+        if (days[i]) {
+            //set weekday index to true
+            
+            form.date[i].checked = true;
+        } else {form.date[i].checked = false;}
+    }
+}
+
+function parseImg(src){
+
+    if(src.indexOf("salad") > -1){
+        selectImage('icon2');
+    } else if(src.indexOf("sleep") > -1){
+        selectImage('icon1');
+    } else if(src.indexOf("run") > -1){
+        selectImage('icon3');
+    }
+}
+
 function checkBoxcontrol(j) {
     var total = 0;
     //include check for others field
@@ -138,7 +185,7 @@ function addHabit(e) {
         habit.save(null, {
             success: function(habit) {
                 // Execute any logic that should take place after the object is saved.
-                alert('New object created with objectId: ' + habit.id);
+                //alert('New object created with objectId: ' + habit.id);
                 window.location.href = '../src/list.html';
             },
             error: function(habit, error) {
@@ -169,6 +216,7 @@ function addHabitToList() {
 
                 var element = results[i];
                 var title = element.get('title');
+                var iconSrc = element.get('icon');
                 dayStreak[title] = element.get('current_record');
                 bestRecord[title] = element.get('best_record');
                 //var days = element.get('weekdays');
@@ -177,8 +225,7 @@ function addHabitToList() {
                 htmlEle.hidden = false;
                 htmlEle.querySelector(".habit-name").innerHTML = title;
 
-                //htmlEle.querySelector(".habit-icon").innerHTML = ; Fill when images working
-                console.log(title);
+                htmlEle.querySelector(".habit-icon").src = iconSrc;
                 htmlEle.querySelector(".day-streak").innerHTML = dayStreak[title];
                 htmlEle.querySelector(".best-record").innerHTML = bestRecord[title];
                 initProgress(htmlEle, title);
@@ -192,7 +239,61 @@ function addHabitToList() {
     });
 }
 
+function editHabit(element){
+    var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;
+    console.log(habitName);
+    sessionStorage.setItem('editingHabit', habitName);
+    console.log(sessionStorage.getItem('editingHabit'));
+    //window.editingHabit = habitName;
+    location.href = 'edit.html';
+    
+}
 
+
+
+function loadEdit(){
+    var habitName = sessionStorage.getItem('editingHabit');
+
+    var Habit = Parse.Object.extend('Habit');
+    var query = new Parse.Query(Habit);
+    query.equalTo('title', habitName);
+    query.find().then(function(result) {
+        parseImg(result[0].get('icon'));
+        setDailyFreq(result[0].get('times'));
+        setWeekdays(result[0].get('weekdays'));
+        setTitle(habitName);
+    });
+}
+
+function submitEdit(e){
+
+    e.preventDefault();
+
+    if (!iconSrc) {
+        alert('Please select an icon');
+    } else if ((!(checkWeeklyFreq()))) {} else if (!(checkDailyFreq())) {} else {
+        var Habit = Parse.Object.extend('Habit');
+
+        var title = document.getElementById('title').value; //get title
+        getWeekdays(); //get weekly frequency
+
+        var query = new Parse.Query(Habit);
+        //console.log(sessionStorage.getItem('editingHabit'));
+        query.equalTo('title', sessionStorage.getItem('editingHabit'));
+        query.find({
+
+            success : function(habit){
+                console.log(habit);
+                habit[0].set('title', title); //set title
+                habit[0].set('icon', iconSrc); //set icon
+                habit[0].set('weekdays', myDays); //set weekly frequency
+                habit[0].set('times', times); //set daily frequency
+                habit[0].save();
+                location.href = 'list.html';
+            }
+        });
+    }
+}
 
 // var listItems = document.getElementById('habit-list').children;
 
