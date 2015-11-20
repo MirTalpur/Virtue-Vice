@@ -328,7 +328,12 @@ function deleteHabit(element) {
 
             result[0].destroy();
         });
-        parent.removeChild(child);
+        child.style.opacity = "0";
+        child.style.transition = "opacity 500ms linear";
+        setTimeout( function() {
+            parent.removeChild(child);
+            },
+        800);
     } else { /*do nothing*/ }
 
 }
