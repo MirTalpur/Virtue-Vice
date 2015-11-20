@@ -37,12 +37,7 @@ function onClickSignUp() {
 			alert('Error: ' + error.code + ' ' + error.message);
 		}
 	});
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-}
-=======
->>>>>>> thumbs-up
+
 }
 
 var iconSrc = "";
@@ -299,10 +294,5 @@ function addHabitToList() {
         }
     });
 
-<<<<<<< HEAD
-}
-=======
 }
 
->>>>>>> Stashed changes
->>>>>>> thumbs-up
