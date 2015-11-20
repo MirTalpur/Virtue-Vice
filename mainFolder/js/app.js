@@ -51,7 +51,7 @@ function selectImage(name) {
     image.style.border = '5px solid #42A5F5';
 
     //set icon source to send to parse
-    if(name === 'icon1'){
+    if (name === 'icon1') {
         iconSrc = '../img/sleep.jpg';
     } else if (name === 'icon2') {
         iconSrc = '../img/salad.jpg';
@@ -62,7 +62,7 @@ function selectImage(name) {
 
 function checkWeeklyFreq() {
     var total = 0;
-    for (var i = 0; i < document.form.day.length; i++) {
+    for (var i = 0; i < 6; i++) {
         if (document.form.date[i].checked) {
             return true;
         }
@@ -104,18 +104,18 @@ function getWeekdays() {
     }
 }
 
-function setTitle(name){
+function setTitle(name) {
     var title = document.querySelector('#title');
     title.value = name;
 }
 
-function setDailyFreq(frequency){
+function setDailyFreq(frequency) {
     var form = document.querySelector('#editForm');
-    if(frequency === 1){
+    if (frequency === 1) {
         form.day[0].checked = true;
-    } else if(frequency === 2){
+    } else if (frequency === 2) {
         form.day[1].checked = true;
-    } else if(frequency === 3){
+    } else if (frequency === 3) {
         form.day[2].checked = true;
     } else {
         document.getElementById('others').value = frequency;
@@ -123,24 +123,26 @@ function setDailyFreq(frequency){
 
 }
 
-function setWeekdays(days){
+function setWeekdays(days) {
     var form = document.querySelector('#editForm');
     for (var i = 0; i < days.length; i++) {
         if (days[i]) {
             //set weekday index to true
-            
+
             form.date[i].checked = true;
-        } else {form.date[i].checked = false;}
+        } else {
+            form.date[i].checked = false;
+        }
     }
 }
 
-function parseImg(src){
+function parseImg(src) {
 
-    if(src.indexOf("salad") > -1){
+    if (src.indexOf("salad") > -1) {
         selectImage('icon2');
-    } else if(src.indexOf("sleep") > -1){
+    } else if (src.indexOf("sleep") > -1) {
         selectImage('icon1');
-    } else if(src.indexOf("run") > -1){
+    } else if (src.indexOf("run") > -1) {
         selectImage('icon3');
     }
 }
@@ -207,7 +209,7 @@ function addHabitToList() {
     //query.equalTo('title', '*');
     //var getTitle = ';
     var habitList = document.getElementById('habit-list');
-    console.log(habitList);
+
     query.find({
         success: function(results) {
             //alert('Successfully retrieved ' + results.length + ' scores.');
@@ -233,25 +235,20 @@ function addHabitToList() {
                 habitList.appendChild(htmlEle);
 
             }
-
-            console.log(dayStreak);
         }
     });
 }
 
-function editHabit(element){
+function editHabit(element) {
     var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;
-    console.log(habitName);
     sessionStorage.setItem('editingHabit', habitName);
-    console.log(sessionStorage.getItem('editingHabit'));
-    //window.editingHabit = habitName;
     location.href = 'edit.html';
-    
+
 }
 
 
 
-function loadEdit(){
+function loadEdit() {
     var habitName = sessionStorage.getItem('editingHabit');
 
     var Habit = Parse.Object.extend('Habit');
@@ -265,7 +262,7 @@ function loadEdit(){
     });
 }
 
-function submitEdit(e){
+function submitEdit(e) {
 
     e.preventDefault();
 
@@ -278,12 +275,10 @@ function submitEdit(e){
         getWeekdays(); //get weekly frequency
 
         var query = new Parse.Query(Habit);
-        //console.log(sessionStorage.getItem('editingHabit'));
         query.equalTo('title', sessionStorage.getItem('editingHabit'));
         query.find({
 
-            success : function(habit){
-                console.log(habit);
+            success: function(habit) {
                 habit[0].set('title', title); //set title
                 habit[0].set('icon', iconSrc); //set icon
                 habit[0].set('weekdays', myDays); //set weekly frequency
@@ -320,11 +315,11 @@ function deleteHabit(element) {
         var child = element.parentNode.parentNode;
         var habitName = child.getElementsByClassName('habit-name')[0].innerHTML;
         var parent = child.parentNode;
-        
+
         var Habit = Parse.Object.extend('Habit');
         var query = new Parse.Query(Habit);
         query.equalTo('title', habitName);
-        query.find().then(function(result){
+        query.find().then(function(result) {
 
             result[0].destroy();
         });
@@ -333,17 +328,16 @@ function deleteHabit(element) {
 
 }
 
-function initProgress(element, name ){
+function initProgress(element, name) {
     var progress = element.querySelector(".progress");
 
 
     var percentage = (dayStreak[name] / 10) * 100;
-    if(percentage > 100){
+    if (percentage > 100) {
         percentage = 100;
     }
     requestAnimationFrame(function() {
         percentage = percentage.toString() + '%';
-        console.log(percentage);
         progress.style.transition = "width .5s linear";
         progress.style.width = percentage;
     });
@@ -367,7 +361,7 @@ function increaseProgress(element) {
     var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;
     var progress = element.parentNode.parentNode.getElementsByClassName("progress")[0];
     var percentage = (dayStreak[habitName] / 10) * 100;
-    if(percentage > 100){
+    if (percentage > 100) {
         percentage = 100;
     }
     requestAnimationFrame(function() {
@@ -401,14 +395,13 @@ function thumbsUp(element) {
     var days = element.parentNode.parentNode.getElementsByClassName('day-streak')[0];
     days.innerHTML = dayStreak[habitName];
 
-    console.log(habitName);
     query.equalTo('title', habitName);
     query.find({
 
-        success : function(result){
+        success: function(result) {
 
             result[0].increment('current_record');
-            result[0].set('best_record',bestRecord[habitName]);
+            result[0].set('best_record', bestRecord[habitName]);
 
             result[0].save();
         }
@@ -422,7 +415,7 @@ function thumbsDown(element) {
     query.equalTo('title', habitName);
     query.find({
 
-        success : function(result){
+        success: function(result) {
 
             result[0].set('current_record', 0);
             result[0].save();

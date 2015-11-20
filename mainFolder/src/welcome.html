@@ -1,73 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script type="text/javascript">
-        function spawnNotification(theBody,theIcon,theTitle) {
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+    function spawnNotification(theBody, theIcon, theTitle) {
         var options = {
             body: theBody,
             icon: 'notification.png'
         }
-        var n = new Notification(theTitle,options);
+        var n = new Notification(theTitle, options);
+    }
+
+    function notifyMe() {
+        Notification.requestPermission();
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
         }
-        function notifyMe() {
-            Notification.requestPermission();
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    alert("This browser does not support desktop notification");
-  }
-  //Default permission
-  else if (Notification.permission === "default") {
-    // If it's okay let's create a notification
-    var notification = new Notification("Reminder: Update your habits!");
-    notification.onclick = function() {
-        window.location = 'list.html';
-        //this.cancel();
-    };
-    //alert(notification);
-  }
+        //Default permission
+        else if (Notification.permission === "default") {
+            // If it's okay let's create a notification
+            var notification = new Notification("Reminder: Update your habits!");
+            notification.onclick = function() {
+                window.location = 'list.html';
+                //this.cancel();
+            };
+            //alert(notification);
+        }
 
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var notification = new Notification("Reminder: Update your habits!");
-    notification.onclick = function() {
-        window.location = 'list.html';
-        //this.cancel();
-    };
-  }
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            // If it's okay let's create a notification
+            var notification = new Notification("Reminder: Update your habits!");
+            notification.onclick = function() {
+                window.location = 'list.html';
+                //this.cancel();
+            };
+        }
 
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== 'denied') {
-    Notification.requestPermission(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification("Reminder: Update your habits!");
-        notification.onclick = function() {
-        window.location = 'list.html';
-        //this.cancel();
-    };
-      }
-    });
-  }
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function(permission) {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    var notification = new Notification("Reminder: Update your habits!");
+                    notification.onclick = function() {
+                        window.location = 'list.html';
+                        //this.cancel();
+                    };
+                }
+            });
+        }
 
-  // At last, if the user has denied notifications, and you 
-  // want to be respectful there is no need to bother them any more.
-}
+        // At last, if the user has denied notifications, and you 
+        // want to be respectful there is no need to bother them any more.
+    }
+    </script>
+    <title>Welcome to Virtue/Vice!</title>
+    <link rel="stylesheet" href="../css/welcome.css">
+</head>
 
-        </script>
-        <title>Welcome to Virtue/Vice!</title>
-        <link rel="stylesheet" href="../css/welcome.css">
-    </head>
-    <body>
-      <div class="welcome">
+<body>
+    <div class="welcome">
         <h1>virtue / <i>vice</i></h1>
-          
-        <h2><span>keep your habits in line</span></h2>    
-     
-        <p id="add"><input class="addbutton" type="button" value="add a habit" onclick="location.href='add.html'; notifyMe();">
+        <h2><span>keep your habits in line</span></h2>
+        <p id="add">
+            <input class="addbutton" type="button" value="add a habit" onclick="location.href='add.html'; notifyMe();">
         </p>
-      </div>
-    </body>
+    </div>
+</body>
+
 </html>
