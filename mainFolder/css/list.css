@@ -44,8 +44,11 @@ body{
 .op-del:hover{background:#F22613;}
 .op-del:active{background:#F22613; border:2px solid red;}
 
+/*
 .habit-record{position:absolute; display:inline-block; height: 100%; line-height: 60px; width:100%; text-align:center; top:75px; margin:0 auto;}
-.record{width:30px; height:30px; margin-right:5px; margin-left:150px; border-radius:50%; box-shadow:0 0 3px gray; padding:5px; vertical-align:middle; position:relative; top:5px;}
+*/
+.habit-record{position:relative; text-align:center; bottom:55px; left:70px;}
+.record{width:30px; height:30px; margin-right:5px; border-radius:50%; box-shadow:0 0 3px gray; padding:5px; vertical-align:middle; position:relative; top:5px;}
 
 .record-up{background:rgba(0, 177, 106, 0.8); border:2px solid rgba(0, 128, 0, 0.3);}
 .record-up:hover{background:#00B16A;}
@@ -55,7 +58,7 @@ body{
 .record-down:hover{background:#F22613;}
 .record-down:active{background:#F22613; border:2px solid red;}
 
-.progressBar {background-color:rgba(171,171,171,0.6); height:14px; width:150px; position:relative; left:35px; top:15px;}
+.progressBar {background-color:rgba(171,171,171,0.6); height:14px; width:150px; display: inline-block; position:relative; top:5px}
 .progress {background-color:rgba(65, 131, 215, 0.8); height:14px; width:0px;}
 
 /* add habit */
@@ -68,12 +71,12 @@ body{
 @media only screen
     and (max-width: 500px) {
         section{width:350px;margin: 0 auto;}
-        .message{right:5px;bottom:100px;font-size: small;}
+        .message{right:5px;bottom:130px;font-size: small;}
 }
 
 /* desktop, tablet */
 @media only screen
     and (min-width: 500px) {
     section{width:500px;margin: 0 auto;}
-    .message{right:60px;bottom:100px;}
+    .message{right:60px;bottom:130px;}
 }
