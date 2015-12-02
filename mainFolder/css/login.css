@@ -167,6 +167,25 @@ body {
   box-sizing: border-box;
 }
 
+.login .loginForm .forgotPWButton {
+  -webkit-appearance:none;
+  width: 99%;
+  display: inline-block;
+  margin: 2px;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  background-color: grey;
+  -webkit-border-radius: 5px; /*For Safari, etc. */
+  -moz-border-radius: 5px; /* For Mozilla, etc. */
+  border-radius: 5px; /* CSS3 Feature */
+  opacity: 1.0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 @media (max-width: 380px) {
   .login {
     top: 7%;

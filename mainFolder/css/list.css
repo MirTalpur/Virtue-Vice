@@ -8,6 +8,35 @@ body{
     background: -moz-linear-gradient(bottom right, #BBDEFB, #B0C4DE) fixed; /* For Firefox 3.6 to 15 */
     background: linear-gradient(to bottom right,  #BBDEFB, #B0C4DE) fixed; /* Standard syntax */
     font-family: Helvetica, san-sarif;
+    margin-top: 35px;
+}
+
+.selector
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5%;
+  background:rgba(33, 72, 100, 1.0);
+  margin-bottom: 10px;
+  border-bottom: 1px solid #333;
+  z-index:300;
+}
+
+.selector > p {
+    position: relative;
+    color: white;  
+    margin: 15px;
+}
+
+.selector > a {
+    position:fixed;
+    right: 0;
+    top:0;
+    margin: 15px;
+    text-decoration: none;
+    color: white;
 }
 
 #habit-list{list-style: none; padding:0;}
@@ -62,7 +91,7 @@ body{
 .progress {background-color:rgba(65, 131, 215, 0.8); height:14px; width:0px;}
 
 /* add habit */
-#addHabit{position:fixed; bottom: 40px; right:20px;background:rgba(33, 72, 100, 1.0); width: 60px;height:60px; vertical-align: middle; font-size:36px; padding: 5px;line-height: 100%;color:white; border:2px solid rgba(85,85,85,0.7); -webkit-appereance: none; border-radius: 50%; box-shadow: 0 0 3px gray;}
+#addHabit{position:fixed; bottom: 40px; right:20px;background:rgba(33, 72, 100, 1.0); width: 60px;height:60px; vertical-align: middle; font-size:36px; line-height: 100%;color:white; border:2px solid rgba(85,85,85,0.7); -webkit-appereance: none; border-radius: 50%; box-shadow: 0 0 3px gray;}
 #addHabit:hover{background: rgba(33, 72, 100, 0.7); border:1px solid rgba(85,85,85,0.7); box-shadow: 0 0 5px gray;}
 #addHabit:active{border: 2px solid gray; background: rgba(33, 72, 100); box-shadow: 0 0 10px gray;}
 #addHabit:focus{outline-style:none;}

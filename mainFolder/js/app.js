@@ -4,6 +4,24 @@ if (!parseInit) {
     parseInit = true;
 }
 
+function authSession() {
+    var currentUser = Parse.User.current();
+    if (currentUser) {
+
+    } else {
+        window.location.href = '../src/login.html';
+    }
+}
+
+function getCurrentUser() {
+    var currentUser = Parse.User.current();
+    if (currentUser) {
+        return currentUser;
+    } else {
+        window.location.href = '../src/login.html';
+    }
+}
+
 function onClickSignIn() {
     var email = document.getElementById('usermail').value;
     var password = document.getElementById('password').value;
@@ -18,26 +36,54 @@ function onClickSignIn() {
     });
 }
 
+function onClickForgotPassword() {
+    var email = document.getElementById('usermail').value;
+    if (email == null || email == "") {
+        alert('Must provide an email to send a password reset email to');
+        return;
+    }
+    Parse.User.requestPasswordReset(email, {
+        success: function(user) {
+            alert('We have sent a password reset request to ' + email);
+        },
+        error: function(user, error) {
+            alert(error.message);
+        }
+    });
+}
+
 function onClickSignUp() {
-    var signUpText = document.getElementById('signInMessage');
-    signUpText.style.display = 'block';
+
     var user = new Parse.User();
     var email = document.getElementById('usermail').value;
     var password = document.getElementById('password').value;
-    console.log(password);
+    if (email == null || email == "") {
+        alert('Must provide an email');
+        return;
+    }
+    if (password == null || password == "") {
+        alert('Must provide a password');
+        return;
+    }
     user.set('username', email);
     user.set('email', email);
     user.set('password', password);
     user.signUp(null, {
         success: function(user) {
-            alert('Sign up success');
+            var signUpText = document.getElementById('signInMessage');
+            signUpText.style.display = 'block';
             window.location.href = '../src/welcome.html';
         },
         error: function(user, error) {
-            alert('Error: ' + error.code + ' ' + error.message);
+            alert(error.message);
         }
     });
 
+}
+
+function onClickLogout(){
+    Parse.User.logOut();
+    window.location.href = '../src/login.html';
 }
 
 var iconSrc = '';
@@ -174,7 +220,7 @@ function addHabit(e) {
 
         var title = document.getElementById('title').value; //get title
         getWeekdays(); //get weekly frequency
-
+        habit.set('owner', getCurrentUser());
         habit.set('title', title); //set title
         habit.set('icon', iconSrc); //set icon
         habit.set('weekdays', myDays); //set weekly frequency
@@ -206,10 +252,11 @@ function addHabitToList() {
     //get title from parse object
     var Habit = Parse.Object.extend('Habit');
     var query = new Parse.Query(Habit);
+    var user = getCurrentUser();
     //query.equalTo('title', '*');
     //var getTitle = ';
     var habitList = document.getElementById('habit-list');
-
+    query.equalTo("owner", user);
     query.find({
         success: function(results) {
             //alert('Successfully retrieved ' + results.length + ' scores.');
@@ -325,10 +372,10 @@ function deleteHabit(element) {
         });
         child.style.opacity = "0";
         child.style.transition = "opacity 500ms linear";
-        setTimeout( function() {
-            parent.removeChild(child);
+        setTimeout(function() {
+                parent.removeChild(child);
             },
-        800);
+            800);
     } else { /*do nothing*/ }
 
 }
@@ -347,20 +394,6 @@ function initProgress(element, name) {
         progress.style.width = percentage;
     });
 }
-
-// function increaseProgress(element) {
-//             var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;
-//             var progress = element.parentNode.parentNode.getElementsByClassName("progress")[0];
-
-//             var percentage = (dayStreak[name] / 10) * 100;
-
-//             requestAnimationFrame(function(){
-//                 percentage = percentage.toString() + '%';
-//                 console.log(percentage);
-//                 progress.style.transition = "width 1s linear";
-//                 progress.style.width = percentage;
-//             });
-//         }
 
 function increaseProgress(element) {
     var habitName = element.parentNode.parentNode.getElementsByClassName('habit-name')[0].innerHTML;

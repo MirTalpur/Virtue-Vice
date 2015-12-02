@@ -9,13 +9,17 @@
     <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
     <script type="text/javascript" src="../js/app.js"></script>
     <script type="text/javascript">
-    window.onload = addHabitToList;
+        authSession();
+        window.onload = addHabitToList;
     </script>
 </head>
 
 <body>
+    <div class="selector">
+    <p>virtue / <i>vice</i></p>
+    <a href="javascript:onClickLogout();">Logout</a>
+    </div>
     <section>
-        <h1>Habit List</h1>
         <ul id="habit-list" class="habitList">
             <li id="habitTemplate" hidden>
                 <ul class="habit-info">
