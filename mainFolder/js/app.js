@@ -1,6 +1,7 @@
 var parseInit = false;
 if (!parseInit) {
-    Parse.initialize('ms6BSiOOzXCmkZuNMEKAbk3AiDlaWff1Yutqmb5Z', '7xOFDK3eApzVXxX8ntQBPeYSAKX7t5DXmMT8O5mZ');
+    Parse.initialize("6jcRDuYJFubVVTyz1RTnawv3BuTdlls1bScZqUlR", "FvsApZDnJ6K2k3MMW9vnolIF6l3q909CeA9d0Vb1");
+
     parseInit = true;
 }
 
@@ -223,6 +224,15 @@ function addHabit(e) {
         habit.set('owner', getCurrentUser());
         habit.set('title', title); //set title
         habit.set('icon', iconSrc); //set icon
+        if(iconSrc = '../img/salad.jpg'){
+                monitorFood();
+            }
+        if(iconSrc = '../img/sleep.jpg'){
+                monitorSleep();
+            }
+        if(iconSrc = '../img/run.jpg'){
+                monitorExercise();
+        }
         habit.set('weekdays', myDays); //set weekly frequency
         habit.set('times', times); //set daily frequency
         habit.set('done', false); //set default status
@@ -462,4 +472,32 @@ function thumbsDown(element) {
     dayStreak[habitName] = 0;
     var days = element.parentNode.parentNode.getElementsByClassName('day-streak')[0];
     days.innerHTML = dayStreak[habitName];
+}
+
+//Functions to check for user usage -->
+function monitorFood() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Food Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
+}
+
+function monitorSleep() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Sleeping Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
+}
+
+function monitorExercise() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Exercise Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
 }

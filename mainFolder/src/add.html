@@ -7,7 +7,9 @@
 		<title>Add a habit</title>
 		<link rel="stylesheet" href="../css/forms.css">
 		<script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
-				
+		<script type="text/javascript">
+			Parse.initialize("6jcRDuYJFubVVTyz1RTnawv3BuTdlls1bScZqUlR", "FvsApZDnJ6K2k3MMW9vnolIF6l3q909CeA9d0Vb1");
+		</script>
 	</head>
 	<body>
 =======
@@ -41,8 +43,7 @@
             </p>
             <img id="icon1" class="icon" onclick="selectImage('icon1');" src="../img/sleep.jpg" alt="sleep image" />
             <img id="icon2" class="icon" onclick="selectImage('icon2');" src="../img/salad.jpg" alt="eat image" />
-            <img id="icon3" class="icon" onclick="selectImage('icon3');" src="../img/run.jpg"
-alt="run image" />
+            <img id="icon3" class="icon" onclick="selectImage('icon3');" src="../img/run.jpg" alt="run image" />
             <img id="icon4" class="icon" src="../img/add.png" alt="find a image" />
             <p>
                 <label>Weekly Frequency</label>
@@ -83,8 +84,22 @@ alt="run image" />
             <p id="save_p">
                 <input id="save" type="submit" value="Save It" onclick="addHabit(event)">
             </p>
+    
+
         </form>
+            <script="text/javascript">
+            	var dimensions = {
+  				// What is the user trying to do?
+  				category: 'Change Exercise Habits'
+				};
+				// Send the dimensions to Parse along with the 'search' event
+				Parse.Analytics.track('habit', dimensions)
+			</script>
+
     </div>
+
+
+
 </body>
 
 </html>
