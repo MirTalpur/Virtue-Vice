@@ -1,0 +1,48 @@
+﻿<ion-view title="virtue / vice" hide-back-button="true">
+    <link rel="stylesheet" type="text/css" href="css/list.css">
+    <ion-content padding="true">
+
+        <section>
+            <ul id="habit-list" class="habitList">
+
+                <li id="habitTemplate" ng-hidden>
+                    <ul class="habit-info">
+                        <li>
+                            <div class="habit-name">Sleep 8 hours</div>
+                        </li>
+                        <li><img class="habit-icon" src="img/sleep.jpg" alt="habit icon"></li>
+                    </ul>
+                    <div class="message">
+                        <span class="message-total">
+                        <strong class="day-streak"></strong> days in a row! Best Record: <strong class="best-record"></strong>
+                </div>
+                <div class="habit-record">
+                    <button type="button" class="record record-down" ng-click="thumbsDown($event.target)" title="">
+                        <img src="img/thumbsDown.png" ng-click="thumbsDown($event.target)" alt="Thumbs Down">
+                    </button>
+                    <div class="progressBar">
+                        <div class="progress"></div>
+                    </div>
+                    <button type="button" class="record record-up" ng-click="thumbsUp($event.target)" title="">
+                        <img ng-click="thumbsUp()" src="img/thumbsUp.png" alt="Thumbs Up">
+                    </button>
+                </div>
+                <div class="habit-op">
+                    <button type="button" class="op op-done" ng-click="showMsg(this);" title="done">
+                        <img src="img/done.svg" alt="Done">
+                    </button>
+                    <button type="button" class="op op-edit" ng-click="editHabit(this);" title="edit habit">
+                        <img src="img/edit.svg" alt="Edit">
+                    </button>
+                    <button type="button" class="op op-del" ng-click="deleteHabit(this);" title="delete habit">
+                        <img src="img/delete.svg" alt="Del">
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <button type="button" id="addHabit" ng-click="goAdd()" title="add habit">+</button>
+    <div data-ng-controller="MainController" data-ng-init="addHabitToList()"></div>
+</ion-content>
+</ion-view>
