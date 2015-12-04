@@ -50,6 +50,17 @@ img.icon{
 	-webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
 }
+img#uploadImg{
+	display: none;
+	width: 80px;
+	height: 80px;
+	margin-right: 20px;
+	border-radius: 25px;
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
 @media (max-width: 500px) {
   div.forms {
   	position: relative;

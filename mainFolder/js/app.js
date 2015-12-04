@@ -93,6 +93,7 @@ function selectImage(name) {
     document.getElementById('icon1').style.border = 'none';
     document.getElementById('icon2').style.border = 'none';
     document.getElementById('icon3').style.border = 'none';
+    document.getElementById('uploadImg').style.border = 'none';
     var image = document.getElementById(name);
     image.style.border = '5px solid #42A5F5';
 
@@ -103,6 +104,10 @@ function selectImage(name) {
         iconSrc = '../img/salad.jpg';
     } else if (name === 'icon3') {
         iconSrc = '../img/run.jpg';
+    } else if (name === 'uploadImg') {
+        iconSrc = document.getElementById('uploadImg').src;
+        //alert("iconSrc:  " + iconSrc);
+        //iconSrc = "upload"
     }
 }
 
@@ -190,6 +195,28 @@ function parseImg(src) {
         selectImage('icon1');
     } else if (src.indexOf("run") > -1) {
         selectImage('icon3');
+    } 
+    else{
+        var img = document.getElementById("uploadImg");
+        img.src = src;
+        img.style.display = 'block';
+        selectImage('uploadImg');
+    }
+}
+
+function addFile() {
+        document.getElementById('iconUpload').click();    
+}
+
+function uploadImage(x) {
+    var uploadfile = document.getElementById('iconUpload');
+    var fReader = new FileReader();
+    fReader.readAsDataURL(uploadfile.files[0]);
+    fReader.onloadend = function(event){
+        var img = document.getElementById("uploadImg");
+        img.src = event.target.result;
+        img.style.display = 'block';
+        selectImage('uploadImg');
     }
 }
 
@@ -218,7 +245,85 @@ function addHabit(e) {
         //create habit
         var habit = new Habit();
 
-        var title = document.getElementById('title').value; //get title
+
+        var fileUploadControl = document.getElementById('iconUpload');
+
+        if (fileUploadControl.files.length > 0) {
+            var file = fileUploadControl.files[0];
+            var name = "icon.jpg";
+            var parseFile = new Parse.File(name, file);
+            parseFile.save().then(function() {
+                // The file has been saved to Parse.
+                alert('file saved');
+                habit.set('iconUpload', parseFile);
+
+                        var title = document.getElementById('title').value; //get title
+
+        getWeekdays(); //get weekly frequency
+        habit.set('owner', getCurrentUser());
+        habit.set('title', title); //set title
+        habit.set('icon', iconSrc); //set icon
+        if(iconSrc = '../img/salad.jpg'){
+                monitorFood();
+            }
+        if(iconSrc = '../img/sleep.jpg'){
+                monitorSleep();
+            }
+        if(iconSrc = '../img/run.jpg'){
+                monitorExercise();
+        }
+        habit.set('weekdays', myDays); //set weekly frequency
+        habit.set('times', times); //set daily frequency
+        habit.set('done', false); //set default status
+        habit.set('current_record', 0); //set current record
+        habit.set('best_record', 0); //set best record
+
+        //Save Habit to Parse
+        habit.save(null, {
+            success: function(habit) {
+                // Execute any logic that should take place after the object is saved.
+                //alert('New object created with objectId: ' + habit.id);
+                window.location.href = '../src/list.html';
+            },
+            error: function(habit, error) {
+                // Execute any logic that should take place if the save fails.
+                // error is a Parse.Error with an error code and message.
+                alert('Failed to create new object, with error code: ' + error.code + ' habit info: ' + habit.message);
+            }
+        });
+            
+            }, function(error) {
+                // The file either could not be read, or could not be saved to Parse.
+                alert('error: file not saved');
+            });
+        } else {
+            //alert('Select a file');
+            var title = document.getElementById('title').value; //get title
+            getWeekdays(); //get weekly frequency
+            habit.set('owner', getCurrentUser());
+            habit.set('title', title); //set title
+            habit.set('icon', iconSrc); //set icon
+            habit.set('weekdays', myDays); //set weekly frequency
+            habit.set('times', times); //set daily frequency
+            habit.set('done', false); //set default status
+            habit.set('current_record', 0); //set current record
+            habit.set('best_record', 0); //set best record
+
+            //Save Habit to Parse
+            habit.save(null, {
+                success: function(habit) {
+                    // Execute any logic that should take place after the object is saved.
+                    //alert('New object created with objectId: ' + habit.id);
+                    window.location.href = '../src/list.html';
+                },
+                error: function(habit, error) {
+                    // Execute any logic that should take place if the save fails.
+                    // error is a Parse.Error with an error code and message.
+                    alert('Failed to create new object, with error code: ' + error.code + ' habit info: ' + habit.message);
+                }
+            });
+        }
+        /*var title = document.getElementById('title').value; //get title
         getWeekdays(); //get weekly frequency
         habit.set('owner', getCurrentUser());
         habit.set('title', title); //set title
@@ -241,7 +346,7 @@ function addHabit(e) {
                 // error is a Parse.Error with an error code and message.
                 alert('Failed to create new object, with error code: ' + error.code + ' habit info: ' + habit.message);
             }
-        });
+        });*/
     }
 }
 var dayStreak = {};
@@ -302,7 +407,13 @@ function loadEdit() {
     var query = new Parse.Query(Habit);
     query.equalTo('title', habitName);
     query.find().then(function(result) {
-        parseImg(result[0].get('icon'));
+        var parseFile = result[0].get('iconUpload');
+        if(parseFile == "" || parseFile == null){
+            parseImg(result[0].get('icon'));
+        } else {
+            parseImg(parseFile.url());
+        }
+        
         setDailyFreq(result[0].get('times'));
         setWeekdays(result[0].get('weekdays'));
         setTitle(habitName);
@@ -462,4 +573,32 @@ function thumbsDown(element) {
     dayStreak[habitName] = 0;
     var days = element.parentNode.parentNode.getElementsByClassName('day-streak')[0];
     days.innerHTML = dayStreak[habitName];
+}
+
+//Functions to check for user usage -->
+function monitorFood() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Food Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
+}
+
+function monitorSleep() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Sleeping Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
+}
+
+function monitorExercise() {
+    var dimensions = {
+    // What is the user trying to do?
+    category: 'Change Exercise Habits'
+    };
+    // Send the dimensions to Parse along with the 'search' event
+    Parse.Analytics.track('habit', dimensions);
 }
