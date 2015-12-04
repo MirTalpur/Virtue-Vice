@@ -31,7 +31,12 @@
             <img id="icon2" class="icon" onclick="selectImage('icon2');" src="../img/salad.jpg" alt="eat image" />
             <img id="icon3" class="icon" onclick="selectImage('icon3');" src="../img/run.jpg"
 alt="run image" />
-            <img id="icon4" class="icon" src="../img/add.png" alt="find a image" />
+            <img id="icon4" class="icon" src="../img/add.png" onclick="addFile();" alt="find a image">
+            <input hidden type="file" id="iconUpload" src="../img/add.png" onchange="uploadImage(this);" text="Upload Icon"/>
+            </img>
+            
+            <img id="uploadImg" class="icon" src="" onclick="selectImage('uploadImg');" alt="uploaded image" />
+
             <p>
                 <label>Weekly Frequency</label>
             </p>
